@@ -161,12 +161,16 @@ class CarState(CarStateBase):
       ret.cruiseState.speed = cp.vl["LVR12"]["CF_Lvr_CruiseSet"] * speed_conv
       ret.cruiseState.standstill = False
     else:
-      ret.cruiseState.available = cp_cruise.vl["SCC11"]["MainMode_ACC"] == 1
-      ret.cruiseState.enabled = cp_cruise.vl["SCC12"]["ACCMode"] != 0
-      ret.cruiseState.standstill = cp_cruise.vl["SCC11"]["SCCInfoDisplay"] == 4.
-      ret.cruiseState.speed = cp_cruise.vl["SCC11"]["VSetDis"] * speed_conv
+      ret.cruiseState.available = cp.vl['EMS16']['CRUISE_LAMP_M'] != 0
+      ret.cruiseState.enabled = cp.vl["LVR12"]['CF_Lvr_CruiseSet'] != 0
+      ret.cruiseState.speed = cp.vl["LVR12"]["CF_Lvr_CruiseSet"] * speed_conv
+      ret.cruiseState.standstill = False
+      # ret.cruiseState.available = cp_cruise.vl["SCC11"]["MainMode_ACC"] == 1
+      # ret.cruiseState.enabled = cp_cruise.vl["SCC12"]["ACCMode"] != 0
+      # ret.cruiseState.standstill = cp_cruise.vl["SCC11"]["SCCInfoDisplay"] == 4.
+      # ret.cruiseState.speed = cp_cruise.vl["SCC11"]["VSetDis"] * speed_conv
 
-    self.mads_enabled = ret.cruiseState.available
+    # self.mads_enabled = ret.cruiseState.available
 
     if self.prev_mads_enabled is None:
       self.prev_mads_enabled = self.mads_enabled
